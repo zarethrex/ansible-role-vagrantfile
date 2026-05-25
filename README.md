@@ -4,7 +4,7 @@ Generates an infrastructure definition file (Vagrantfile) for Hashicorp Vagrant 
 
 ## Requirements
 
-- `[Vagrant](https://developer.hashicorp.com/vagrant) >= 2.1`
+- [Vagrant](https://developer.hashicorp.com/vagrant) `>= 2.1`
 
 ## Role Variables
 

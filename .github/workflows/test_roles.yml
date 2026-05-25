@@ -1,5 +1,14 @@
 name: zarethrex.vagrantfile
+
 on: [push]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   molecule:
     name: Test Ansible Role
