@@ -1,0 +1,10 @@
+---
+- name: Prepare Local Files
+  hosts: all
+  connection: local
+  tasks:
+    - name: Create Dummy Provision File
+      ansible.builtin.copy:
+        content: ""
+        dest: "{{ molecule_ephemeral_directory }}/dummy.txt"
+        mode: "0644"
