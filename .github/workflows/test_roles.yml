@@ -15,11 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     env:
       UV_PYTHON: "3.14"
+      VAGRANT_VERSION: "2.4.9"
     steps:
       - name: Checkout Code
         uses: actions/checkout@v6
       - name: Install UV
         uses: astral-sh/setup-uv@v8.1.0
+      - name: Install Vagrant
+        run: |
+          wget https://releases.hashicorp.com/vagrant/${VAGRANT_VERSION}/vagrant_${VAGRANT_VERSION}_linux_amd64.zip
+          unzip vagrant_${VAGRANT_VERSION}_linux_amd64.zip
+          chmod +x vagrant_${VAGRANT_VERSION}_linux_amd64/vagrant
+          mv vagrant_${VAGRANT_VERSION}_linux_amd64/vagrant /usr/local/bin
       - name: Install Ansible Toolset
         run: |
           uv tool install ansible-core \
