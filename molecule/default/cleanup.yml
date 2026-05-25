@@ -8,3 +8,7 @@
       ansible.builtin.file:
         path: "{{ molecule_ephemeral_directory }}/Vagrantfile"
         state: absent
+    - name: Remove Dummy File
+      ansible.builtin.file:
+        path: "{{ molecule_ephemeral_directory }}/dummy.txt"
+        state: absent

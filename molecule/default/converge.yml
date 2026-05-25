@@ -32,5 +32,13 @@
             groups:
               - production
             playbook: playbook.yml
+      - label: test_3
+        name: Test-VM-3
+        box: rockylinux/9
+        provider: virtualbox
+        provision:
+          files:
+            - src: dummy.txt
+              dest: /usr/bin/dummy
   roles:
     - zarethrex.vagrantfile

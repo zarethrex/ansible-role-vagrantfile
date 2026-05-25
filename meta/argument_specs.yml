@@ -71,6 +71,20 @@ argument_specs:
             default: {}
             type: dict
             options:
+              files:
+                type: list
+                elements: dict
+                required: false
+                description: Run file provisioning
+                options:
+                  src:
+                    type: str
+                    description: source location on host
+                    required: true
+                  dest:
+                    type: str
+                    description: destination location on virtual machine
+                    required: true
               shell:
                 required: false
                 description: Provision with a Shell script

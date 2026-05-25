@@ -33,11 +33,15 @@ Vagrant.configure('2') do |config|
     end
 {% endif %}
 
+{% for file in vm.provision.files | default([]) %}
+    {{ vm.label }}.vm.provision "file", source: "{{ file.src }}", destination: "{{ file.dest }}"
+{% endfor %}
+
 {% if vm.provision.shell is defined %}
     $shell_script = <<~SCRIPT
-    {{ vm.provision.shell }}
+    {{ vm.provision.shell | indent(4) }}
     SCRIPT
-{% endif %}
+{%- endif %}
 
 {% if vm.provision.ansible is defined %}
     {{ vm.label }}.vm.provision 'ansible' do |ansible|

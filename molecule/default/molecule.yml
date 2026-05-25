@@ -36,6 +36,7 @@ ansible:
         - --execution-environment-image ghcr.io/ansible/community-ansible-dev-tools:latest
 
   playbooks:
+    prepare: prepare.yml
     converge: converge.yml
     cleanup: cleanup.yml
     verify: verify.yml
@@ -45,6 +46,7 @@ scenario:
   test_sequence:
     - cleanup
     - syntax
+    - prepare
     - converge
     - idempotence
     - verify
