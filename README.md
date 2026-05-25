@@ -13,7 +13,7 @@ Generates an infrastructure definition file (Vagrantfile) for Hashicorp Vagrant 
   - `box`: The box to use for this virtual machine.
   - `label`: Unique label for this machine in the Vagrantfile.
   - `memory`: The memory allocation for the virtual machine, default is `2048`.
-  - `cpus`: Tue number of CPUs for the virtual machine, default is `2`.
+  - `cpus`: The number of CPUs for the virtual machine, default is `2`.
   - `name`: The name defined within the provider of the virtual machine.
   - `provider`: Which provider to use, options are `virtualbox`.
   - `provision`: Run provisioning on the virtual machine, dictionary containing provisioner options:
