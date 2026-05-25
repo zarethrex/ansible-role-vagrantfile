@@ -8,7 +8,7 @@
       block:
         - name: Validate Vagrantfile
           ansible.builtin.command:
-            cmd: vagrant validate > validate.log
+            cmd: vagrant validate --no-provider --no-tty
             chdir: "{{ molecule_ephemeral_directory }}"
             creates: "{{ molecule_ephemeral_directory }}/validate.log"
           register: validation
