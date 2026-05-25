@@ -12,19 +12,25 @@
         provider: virtualbox
         cpus: 1
         memory: 1024
-        ansible:
-          groups:
-            - test
-          playbook: playbook.yml
+        provision:
+          ansible:
+            groups:
+              - test
+            playbook: playbook.yml
       - label: test_2
         name: Test-VM-2
         box: rockylinux/9
         provider: virtualbox
         cpus: 2
         memory: 2048
-        ansible:
-          groups:
-            - production
-          playbook: playbook.yml
+        provision:
+          shell: |
+            echo "Setting up machine..."
+            dnf install -y httpd
+            systemctl enable --now httpd
+          ansible:
+            groups:
+              - production
+            playbook: playbook.yml
   roles:
     - zarethrex.vagrantfile

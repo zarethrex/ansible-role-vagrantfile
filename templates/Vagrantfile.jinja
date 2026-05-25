@@ -33,11 +33,17 @@ Vagrant.configure('2') do |config|
     end
 {% endif %}
 
-{% if vm.ansible is defined %}
+{% if vm.provision.shell is defined %}
+    $shell_script = <<~SCRIPT
+    {{ vm.provision.shell }}
+    SCRIPT
+{% endif %}
+
+{% if vm.provision.ansible is defined %}
     {{ vm.label }}.vm.provision 'ansible' do |ansible|
-      ansible.playbook = '{{ vm.ansible.playbook }}'
+      ansible.playbook = '{{ vm.provision.ansible.playbook }}'
       ansible.groups = {
-{% for group in vm.ansible.groups | default(['all']) %}
+{% for group in vm.provision.ansible.groups | default(['all']) %}
         '{{ group }}' => ['{{ vm.label }}']{% if not loop.last %},{% endif %}
 {% endfor %}
 

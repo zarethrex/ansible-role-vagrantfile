@@ -65,17 +65,27 @@ argument_specs:
             choices:
               - virtualbox
             description: Provider to use for this VM
-          ansible:
+          provision:
+            description: Run provisioner on this VM
             required: false
-            description: Provision with Ansible
+            default: {}
             type: dict
             options:
-              groups:
-                type: list
-                elements: str
+              shell:
                 required: false
-                description: Ansible groups to add this VM to
-              playbook:
+                description: Provision with a Shell script
                 type: str
-                required: true
-                description: Playbook for provisioning this VM
+              ansible:
+                required: false
+                description: Provision with Ansible
+                type: dict
+                options:
+                  groups:
+                    type: list
+                    elements: str
+                    required: false
+                    description: Ansible groups to add this VM to
+                  playbook:
+                    type: str
+                    required: true
+                    description: Playbook for provisioning this VM

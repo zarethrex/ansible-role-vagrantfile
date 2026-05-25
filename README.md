@@ -16,9 +16,11 @@ Generates an infrastructure definition file (Vagrantfile) for Hashicorp Vagrant 
   - `cpus`: Tue number of CPUs for the virtual machine, default is `2`.
   - `name`: The name defined within the provider of the virtual machine.
   - `provider`: Which provider to use, options are `virtualbox`.
-  - `ansible`: Optional dictionary defining Ansible as a provisioner, with options:
-    - `groups`: List of groups to add the virtual machine to in the Ansible inventory.
-    - `playbook`: Path to the Ansible playbook to use.
+  - `provision`: Run provisioning on the virtual machine, dictionary containing provisioner options:
+    - `shell`: Optional string defining shell script to execute on creation.
+    - `ansible`: Optional dictionary defining Ansible as a provisioner, with options:
+      - `groups`: List of groups to add the virtual machine to in the Ansible inventory.
+      - `playbook`: Path to the Ansible playbook to use.
 - `vagrantfile_minimum_vagrant_version`: Specify a minimum working Vagrant version, default is unspecified.
 - `vagrantfile_state`: State of Vagrantfile on system, either `present` or `absent`, default `present`.
 - `vagrantfile_sync_directories`: List of directories to synchronize between host and target (see examples below), default `[]`.
@@ -43,20 +45,22 @@ None.
         provider: virtualbox
         cpus: 1
         memory: 1024
-        ansible:
-          groups:
-            - test
-          playbook: playbook.yml
+        provision:
+          ansible:
+            groups:
+              - test
+            playbook: playbook.yml
       - label: test_2
         name: Test-VM-2
         box: rockylinux/9
         provider: virtualbox
         cpus: 2
         memory: 2048
-        ansible:
-          groups:
-            - production
-          playbook: playbook.yml
+        provision:
+          shell: |
+            echo "Provisioning machine..."
+            dnf install -y httpd
+            systemctl enable --now httpd
   roles:
     - zarethrex.vagrantfile
 
