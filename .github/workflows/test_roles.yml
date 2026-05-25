@@ -22,7 +22,7 @@ jobs:
         uses: astral-sh/setup-uv@v8.1.0
       - name: Install Ansible Toolset
         run: |
-          uv tool ansible-core \
+          uv tool install ansible-core \
           --with ansible \
           --with ansible-lint \
           --with molecule \
