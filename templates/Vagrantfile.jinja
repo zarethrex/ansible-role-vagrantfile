@@ -1,0 +1,49 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# jinja2: trim_blocks: True, lstrip_blocks: False
+
+{% if vagrantfile_minimum_vagrant_version is defined %}
+Vagrant.require_version '>={{ vagrantfile_minimum_vagrant_version }}'
+{% endif %}
+
+Vagrant.configure('2') do |config|
+{% if vagrantfile_sync_directories | default([]) | length == 0 %}
+  config.vm.synced_folder '.', '/vagrant', disabled: true
+{% else %}
+{% for directory in vagrantfile_sync_directories %}
+  config.vm.synced_folder '{{ directory.src }}', '{{ directory.dest }}'
+{% endfor %}
+{% endif %}
+
+{% for vm in vagrantfile_virtual_machines %}
+  config.vm.define '{{ vm.label }}' do |{{ vm.label }}|
+    {{ vm.label }}.vm.box = '{{ vm.box }}'
+{% if vm.hostname is defined %}
+    {{ vm.label }}.vm.hostname = '{{ vm.hostname }}'
+{% endif %}
+
+{% if vm.provider == 'virtualbox' %}
+    {{ vm.label }}.vm.provider 'virtualbox' do |vb|
+      vb.memory = '{{ vm.memory | default(2048) }}'
+      vb.cpus = '{{ vm.cpus | default(2) }}'
+{% if vm.name is defined %}
+      vb.name = '{{ vm.name }}'
+{% endif %}
+    end
+{% endif %}
+
+{% if vm.ansible is defined %}
+    {{ vm.label }}.vm.provision 'ansible' do |ansible|
+      ansible.playbook = '{{ vm.ansible.playbook }}'
+      ansible.groups = {
+{% for group in vm.ansible.groups | default(['all']) %}
+        '{{ group }}' => ['{{ vm.label }}']{% if not loop.last %},{% endif %}
+{% endfor %}
+
+      }
+    end
+{% endif %}
+  end
+{% endfor %}
+end

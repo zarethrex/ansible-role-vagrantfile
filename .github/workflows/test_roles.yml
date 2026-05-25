@@ -1,0 +1,26 @@
+name: zarethrex.vagrantfile
+on: [push]
+jobs:
+  molecule:
+    name: Test Ansible Role
+    runs-on: ubuntu-latest
+    env:
+      UV_PYTHON: "3.14"
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+      - name: Install UV
+        uses: astral-sh/setup-uv@v8.1.0
+      - name: Install Ansible Toolset
+        run: |
+          uv tool ansible-core \
+          --with ansible \
+          --with ansible-lint \
+          --with molecule \
+          --with-executables-from ansible \
+          --with-executables-from ansible-lint \
+          --with-executables-from molecule
+      - name: Lint Ansible Role
+        run: ansible-lint
+      - name: Test Ansible Role
+        run: molecule test

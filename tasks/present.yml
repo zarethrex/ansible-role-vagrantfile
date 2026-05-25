@@ -1,0 +1,6 @@
+---
+- name: Create Vagrantfile
+  ansible.builtin.template:
+    src: Vagrantfile.jinja
+    dest: "{{ vagrantfile_location | default('.') }}/Vagrantfile"
+    mode: "0644"

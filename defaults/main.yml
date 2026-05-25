@@ -1,0 +1,3 @@
+---
+vagrantfile_state: present
+vagrantfile_sync_directories: []

@@ -1,0 +1,4 @@
+---
+- name: Process Vagrantfile Request
+  ansible.builtin.include_tasks:
+    file: "{{ vagrantfile_state }}.yml"

@@ -1,0 +1,81 @@
+---
+argument_specs:
+  main:
+    options:
+      vagrantfile_location:
+        type: str
+        required: false
+        default: .
+        description: Location to write Vagrantfile to
+      vagrantfile_state:
+        type: str
+        choices:
+          - present
+          - absent
+        description: Whether to create/destroy the file
+        default: present
+      vagrantfile_sync_directories:
+        default: []
+        type: list
+        elements: dict
+        required: false
+        options:
+          src:
+            required: true
+            description: Source directory relative to project root
+            type: str
+          dest:
+            required: true
+            description: Destination location on virtual machine
+            type: str
+      vagrantfile_minimum_vagrant_version:
+        required: false
+        description: Semantic version of minimum required Vagrant
+        type: str
+      vagrantfile_virtual_machines:
+        required: true
+        type: list
+        elements: dict
+        options:
+          box:
+            type: str
+            required: true
+            description: Box to use for this virtual machine
+          label:
+            type: str
+            required: true
+            description: Label for this VM
+          memory:
+            type: int
+            required: false
+            default: 2048
+            description: Memory allocation for VM
+          cpus:
+            type: int
+            required: false
+            default: 2
+            description: Number of CPUs for this VM
+          name:
+            type: str
+            required: false
+            description: Name in provider for this VM
+          provider:
+            type: str
+            required: true
+            choices:
+              - virtualbox
+            description: Provider to use for this VM
+          ansible:
+            required: false
+            description: Provision with Ansible
+            type: dict
+            options:
+              groups:
+                type: list
+                elements: str
+                required: false
+                description: Ansible groups to add this VM to
+              playbook:
+                type: str
+                required: true
+                description: Playbook for provisioning this VM

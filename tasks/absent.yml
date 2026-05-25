@@ -1,0 +1,5 @@
+---
+- name: Remove Vagrantfile from System
+  ansible.builtin.file:
+    path: "{{ vagrantfile_location | default('.') }}/Vagrantfile"
+    state: absent

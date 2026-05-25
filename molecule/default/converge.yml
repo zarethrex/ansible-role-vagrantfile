@@ -1,0 +1,30 @@
+---
+- name: Trial Vagrantfile Role
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  vars:
+    vagrantfile_location: "{{ molecule_ephemeral_directory }}"
+    vagrantfile_virtual_machines:
+      - label: test_1
+        name: Test-VM-1
+        box: rockylinux/9
+        provider: virtualbox
+        cpus: 1
+        memory: 1024
+        ansible:
+          groups:
+            - test
+          playbook: playbook.yml
+      - label: test_2
+        name: Test-VM-2
+        box: rockylinux/9
+        provider: virtualbox
+        cpus: 2
+        memory: 2048
+        ansible:
+          groups:
+            - production
+          playbook: playbook.yml
+  roles:
+    - zarethrex.vagrantfile

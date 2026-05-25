@@ -1,0 +1,10 @@
+---
+- name: Cleanup Test Files
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Ensure Vagrantfile not present
+      ansible.builtin.file:
+        path: "{{ molecule_ephemeral_directory }}/Vagrantfile"
+        state: absent

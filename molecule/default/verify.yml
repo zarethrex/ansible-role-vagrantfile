@@ -1,0 +1,19 @@
+---
+- name: Verify
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+    - name: Perform Checks
+      block:
+        - name: Validate Vagrantfile
+          ansible.builtin.command:
+            cmd: vagrant validate > validate.log
+            chdir: "{{ molecule_ephemeral_directory }}"
+            creates: "{{ molecule_ephemeral_directory }}/validate.log"
+          register: validation
+      rescue:
+        - name: Show Vagrantfile
+          failed_when: validation.rc != 0
+          ansible.builtin.debug:
+            msg: "{{ lookup('file', molecule_ephemeral_directory ~ '/Vagrantfile') }}"
