@@ -1,0 +1,14 @@
+[[repos]]
+repo = "builtin"
+hooks = [
+    { id = "trailing-whitespace" },
+    { id = "check-toml" },
+    { id = "check-merge-conflict" },
+    { id = "mixed-line-ending" },
+    { id = "end-of-file-fixer" },
+]
+
+[[repos]]
+repo = "https://github.com/ansible/ansible-lint"
+rev = "v26.4.0"
+hooks = [{ id = "ansible-lint" }]

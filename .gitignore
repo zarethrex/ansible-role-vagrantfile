@@ -3,3 +3,4 @@ Vagrantfile
 venv/
 .pytest*
 .envrc
+.ansible/

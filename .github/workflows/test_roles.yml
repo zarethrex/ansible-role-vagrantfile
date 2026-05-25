@@ -31,7 +31,6 @@ jobs:
         run: |
           uv tool install ansible-core \
           --with ansible \
-          --with ansible-lint \
           --with molecule \
           --with-executables-from ansible \
           --with-executables-from ansible-lint \
