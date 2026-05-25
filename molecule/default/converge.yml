@@ -1,6 +1,6 @@
 ---
 - name: Trial Vagrantfile Role
-  hosts: localhost
+  hosts: all
   connection: local
   gather_facts: false
   vars:

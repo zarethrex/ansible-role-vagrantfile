@@ -1,8 +1,8 @@
 ---
 - name: Verify
-  hosts: localhost
-  gather_facts: false
+  hosts: all
   connection: local
+  gather_facts: false
   tasks:
     - name: Perform Checks
       block:

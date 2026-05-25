@@ -1,5 +1,9 @@
 ---
-# Dependency management (download roles/collections)
+driver:
+  name: default
+platforms:
+  - name: localhost
+    managed: false
 dependency:
   name: galaxy
   options:
@@ -32,19 +36,14 @@ ansible:
         - --execution-environment-image ghcr.io/ansible/community-ansible-dev-tools:latest
 
   playbooks:
-    create: create.yml
     converge: converge.yml
-    destroy: destroy.yml
     cleanup: cleanup.yml
-    prepare: prepare.yml
-    side_effect: side_effect.yml
     verify: verify.yml
 
 scenario:
   name: default
   test_sequence:
     - cleanup
-    - destroy
     - syntax
     - converge
     - idempotence
