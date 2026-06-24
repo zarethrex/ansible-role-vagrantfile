@@ -17,12 +17,21 @@
             groups:
               - test
             playbook: playbook.yml
+        network:
+          forwarded_ports:
+            - host: 8080
+              guest: 80
+            - host: 4443
+              guest: 443
       - label: test_2
         name: Test-VM-2
         box: rockylinux/9
         provider: virtualbox
         cpus: 2
         memory: 2048
+        network:
+          private_network:
+            type: dhcp
         provision:
           shell: |
             echo "Setting up machine..."
