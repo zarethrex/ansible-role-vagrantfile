@@ -62,8 +62,6 @@ argument_specs:
           provider:
             type: str
             required: true
-            choices:
-              - virtualbox
             description: Provider to use for this VM
           network:
             type: dict
