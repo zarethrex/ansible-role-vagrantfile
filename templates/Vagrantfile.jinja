@@ -56,8 +56,16 @@ Vagrant.configure('2') do |config|
 
 {% if vm.provision.shell is defined %}
     $shell_script = <<~SCRIPT
-    {{ vm.provision.shell | indent(4) }}
+    {{ vm.provision.shell | indent(4) | trim }}
     SCRIPT
+
+    {{ vm.label }}.vm.provision "shell", inline: $shell_script
+{%- endif %}
+
+{% if vm.provision.files is defined %}
+{% for file in vm.provision.files -%}
+    {{ vm.label }}.vm.provision "file", source: "{{ file.src }}", destination: "{{ file.dest }}"
+{%- endfor %}
 {%- endif %}
 
 {% if vm.provision.ansible is defined %}

@@ -5,6 +5,9 @@
   gather_facts: false
   vars:
     vagrantfile_location: "{{ molecule_ephemeral_directory }}"
+    vagrantfile_sync_directories:
+      - src: "{{ molecule_ephemeral_directory }}"
+        dest: "/home/vagrant/molecule_ephem"
     vagrantfile_virtual_machines:
       - label: test_1
         box: rockylinux/9
@@ -48,5 +51,9 @@
         provider:
           virtualbox:
             name: Test-VM-3
+        provision:
+          files:
+            - src: "{{ molecule_ephemeral_directory }}/dummy.txt"
+              dest: "/home/vagrant/dummy.txt"
   roles:
     - zarethrex.vagrantfile
