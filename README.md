@@ -30,6 +30,9 @@ Generates an infrastructure definition file (Vagrantfile) for Hashicorp Vagrant 
         - `ansible`: Optional dictionary defining Ansible as a provisioner, with options:
             - `groups`: List of groups to add the virtual machine to in the Ansible inventory.
             - `playbook`: Path to the Ansible playbook to use.
+        - `file`: List of files to add to VM when provisioning, elements in form:
+            - `src`: File on host
+              `dest`: File on guest
 - `vagrantfile_minimum_vagrant_version`: Specify a minimum working Vagrant version, default is unspecified.
 - `vagrantfile_state`: State of Vagrantfile on system, either `present` or `absent`, default `present`.
 - `vagrantfile_sync_directories`: List of directories to synchronize between host and target (see examples below), default `[]`.
@@ -47,29 +50,56 @@ None.
   gather_facts: false
   vars:
     vagrantfile_location: "{{ molecule_ephemeral_directory }}"
+    vagrantfile_sync_directories:
+      - src: "{{ molecule_ephemeral_directory }}"
+        dest: "/home/vagrant/molecule_ephem"
     vagrantfile_virtual_machines:
       - label: test_1
-        name: Test-VM-1
         box: rockylinux/9
-        provider: virtualbox
-        cpus: 1
-        memory: 1024
+        provider:
+          virtualbox:
+            cpus: 1
+            memory: 1024
+            name: Test-VM-1
         provision:
           ansible:
             groups:
               - test
             playbook: playbook.yml
+        network:
+          forwarded_ports:
+            - host: 8080
+              guest: 80
+            - host: 4443
+              guest: 443
       - label: test_2
-        name: Test-VM-2
         box: rockylinux/9
-        provider: virtualbox
-        cpus: 2
-        memory: 2048
+        provider:
+          libvirt:
+            cpus: 2
+            memory: 2048
+            video_type: virtio
+        network:
+          private_network:
+            type: dhcp
         provision:
           shell: |
-            echo "Provisioning machine..."
+            echo "Setting up machine..."
             dnf install -y httpd
             systemctl enable --now httpd
+          ansible:
+            groups:
+              - production
+            playbook: playbook.yml
+      - label: test_3
+        box: rockylinux/9
+        provider:
+          virtualbox:
+            name: Test-VM-3
+        provision:
+          files:
+            - src: "{{ molecule_ephemeral_directory }}/dummy.txt"
+              dest: "/home/vagrant/dummy.txt"
   roles:
     - zarethrex.vagrantfile
 ```
