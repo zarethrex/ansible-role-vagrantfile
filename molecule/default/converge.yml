@@ -48,9 +48,5 @@
         provider:
           virtualbox:
             name: Test-VM-3
-        provision:
-          files:
-            - src: dummy.txt
-              dest: /usr/bin/dummy
   roles:
     - zarethrex.vagrantfile

@@ -44,8 +44,8 @@ Vagrant.configure('2') do |config|
     {{ vm.label }}.vm.provider 'libvirt' do |prov|
       prov.memory = '{{ vm.memory | default(2048) }}'
       prov.cpus = '{{ vm.cpus | default(2) }}'
-{% if vm.provider.video_type is defined %}
-      prov.video_type = '{{ vm.provider.video_type }}'
+{% if vm.provider.libvirt.video_type is defined %}
+      prov.video_type = '{{ vm.provider.libvirt.video_type }}'
 {% endif %}
     end
 {% endif %}
