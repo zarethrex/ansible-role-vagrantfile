@@ -7,11 +7,12 @@
     vagrantfile_location: "{{ molecule_ephemeral_directory }}"
     vagrantfile_virtual_machines:
       - label: test_1
-        name: Test-VM-1
         box: rockylinux/9
-        provider: virtualbox
-        cpus: 1
-        memory: 1024
+        provider:
+          virtualbox:
+            cpus: 1
+            memory: 1024
+            name: Test-VM-1
         provision:
           ansible:
             groups:
@@ -24,11 +25,12 @@
             - host: 4443
               guest: 443
       - label: test_2
-        name: Test-VM-2
         box: rockylinux/9
-        provider: virtualbox
-        cpus: 2
-        memory: 2048
+        provider:
+          libvirt:
+            cpus: 2
+            memory: 2048
+            video_type: virtio
         network:
           private_network:
             type: dhcp
@@ -42,9 +44,10 @@
               - production
             playbook: playbook.yml
       - label: test_3
-        name: Test-VM-3
         box: rockylinux/9
-        provider: virtualbox
+        provider:
+          virtualbox:
+            name: Test-VM-3
         provision:
           files:
             - src: dummy.txt

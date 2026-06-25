@@ -17,9 +17,6 @@ Vagrant.configure('2') do |config|
 {% endif %}
 
 {% for vm in vagrantfile_virtual_machines %}
-{% if vm.provider == 'libvirt' %}
-  config.vm.plugins = "vagrant-libvirt"
-{% endif %}
   config.vm.define '{{ vm.label }}' do |{{ vm.label }}|
     {{ vm.label }}.vm.box = '{{ vm.box }}'
 {% if vm.hostname is defined %}
@@ -35,14 +32,23 @@ Vagrant.configure('2') do |config|
 {% if vm.network is defined and vm.network.private_network is defined %}
     {{ vm.label }}.vm.network "private_network", type: "{{ vm.network.private_network.type }}"
 {% endif %}
-
-    {{ vm.label }}.vm.provider '{{ vm.provider }}' do |prov|
-      prov.memory = '{{ vm.memory | default(2048) }}'
-      prov.cpus = '{{ vm.cpus | default(2) }}'
-{% if vm.name is defined %}
+{% if vm.provider.virtualbox is defined %}
+    {{ vm.label }}.vm.provider 'virtualbox' do |prov|
+      prov.memory = '{{ vm.provider.memory | default(2048) }}'
+      prov.cpus = '{{ vm.provider.cpus | default(2) }}'
+{% if vm.provider.name is defined %}
       prov.name = '{{ vm.name }}'
 {% endif %}
     end
+{% else %}
+    {{ vm.label }}.vm.provider 'libvirt' do |prov|
+      prov.memory = '{{ vm.memory | default(2048) }}'
+      prov.cpus = '{{ vm.cpus | default(2) }}'
+{% if vm.provider.video_type is defined %}
+      prov.video_type = '{{ vm.provider.video_type }}'
+{% endif %}
+    end
+{% endif %}
 
 {% for file in vm.provision.files | default([]) %}
     {{ vm.label }}.vm.provision "file", source: "{{ file.src }}", destination: "{{ file.dest }}"

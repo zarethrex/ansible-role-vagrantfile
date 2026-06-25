@@ -45,24 +45,49 @@ argument_specs:
             type: str
             required: true
             description: Label for this VM
-          memory:
-            type: int
-            required: false
-            default: 2048
-            description: Memory allocation for VM
-          cpus:
-            type: int
-            required: false
-            default: 2
-            description: Number of CPUs for this VM
-          name:
-            type: str
-            required: false
-            description: Name in provider for this VM
           provider:
-            type: str
+            type: dict
             required: true
             description: Provider to use for this VM
+            options:
+              libvirt:
+                type: dict
+                required: false
+                description: Use libvirt provider
+                options:
+                  video_type:
+                    type: str
+                    description: Video device to use
+                    required: false
+                  memory:
+                    type: int
+                    required: false
+                    default: 2048
+                    description: Memory allocation for VM
+                  cpus:
+                    type: int
+                    required: false
+                    default: 2
+                    description: Number of CPUs for this VM
+              virtualbox:
+                type: dict
+                required: false
+                description: Use virtualbox provider
+                options:
+                  memory:
+                    type: int
+                    required: false
+                    default: 2048
+                    description: Memory allocation for VM
+                  cpus:
+                    type: int
+                    required: false
+                    default: 2
+                    description: Number of CPUs for this VM
+                  name:
+                    type: str
+                    required: false
+                    description: Name in provider for this VM
           network:
             type: dict
             required: false

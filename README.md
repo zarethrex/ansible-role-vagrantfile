@@ -12,10 +12,15 @@ Generates an infrastructure definition file (Vagrantfile) for Hashicorp Vagrant 
 - `vagrantfile_virtual_machines`: Define the specifications for each virtual machine to add, argument is a list of dictionaries with arguments:
     - `box`: The box to use for this virtual machine.
     - `label`: Unique label for this machine in the Vagrantfile.
-    - `memory`: The memory allocation for the virtual machine, default is `2048`.
-    - `cpus`: The number of CPUs for the virtual machine, default is `2`.
-    - `name`: The name defined within the provider of the virtual machine.
-    - `provider`: Which provider to use, options are `virtualbox`.
+    - `provider`: Which provider to use, options are:
+        - `virtualbox`:
+            - `cpus`: The number of CPUs for the virtual machine, default is `2`.
+            - `memory`: The memory allocation for the virtual machine, default is `2048`.
+            - `name`: The name defined within the provider of the virtual machine, optional.
+        - `libvirt`:
+            - `cpus`: The number of CPUs for the virtual machine, default is `2`.
+            - `memory`: The memory allocation for the virtual machine, default is `2048`.
+            - `video_type`: The video device to use, optional.
     - `network`: VM network configurations:
         - `port_forwarding`: List of mappings for ports to forward to host, in the form `host: <int>` and `port: <int>`
         - `private_network`: Use a private network:
